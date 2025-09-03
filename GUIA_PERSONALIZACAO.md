@@ -1,392 +1,371 @@
-# 🎨 Guia Prático de Personalização - Florescer Cultural
+# 🎨 Guia de Personalização - Florescer Cultural 2025
 
-## 📝 Como Alterar Textos e Conteúdo
+## ✨ Visão Geral
 
-### 1. Textos da Página Principal
+A nova versão da landing page foi completamente redesenhada com base na paleta de cores do flyer oficial, implementando o conceito **"Primavera Celestial"** - uma fusão harmoniosa entre o azul do céu e as cores vibrantes das flores.
 
-**Arquivo:** `templates/index.html`
+### 🎯 Principais Melhorias Implementadas
 
-#### Título Principal
-```html
-<!-- Linha ~15 -->
-<h1 class="main-title font-cinzel">FLORESCER</h1>
-<h2 class="main-subtitle font-cinzel">CULTURAL</h2>
-```
+- **Identidade Visual Unificada**: Paleta baseada nas cores do flyer
+- **Sistema Flexível de Lineup**: Arquivo JSON configurável
+- **Performance Otimizada**: Lazy loading e animações eficientes
+- **Acessibilidade Completa**: WCAG AA compliance
+- **SEO Avançado**: Schema.org e Open Graph
+- **Responsividade Superior**: Mobile-first design
 
-#### Slogan
-```html
-<!-- Linha ~25 -->
-<p class="hero-slogan font-playfair animate-fade-in">
-    "Onde a música encontra a primavera"
-</p>
-```
+## 🌈 Paleta de Cores (Baseada no Flyer)
 
-#### Mestre de Cerimônia
-```html
-<!-- Linha ~70 -->
-<h3 class="mc-title font-playfair">Mestre de Cerimônia</h3>
-<p class="mc-name font-cinzel">NACHI</p>
-```
-
-#### Informações do Evento
-```html
-<!-- Linha ~35-65 -->
-<div class="info-text">
-    <strong>20/09/2025</strong>  <!-- Data -->
-    <span>Equinócio da Primavera</span>  <!-- Descrição -->
-</div>
-```
-
-#### Textos das Seções
-```html
-<!-- Seção Sobre - Linha ~95 -->
-<h2 class="section-title font-playfair">Celebrando a Primavera</h2>
-<p class="section-description">
-    O Florescer Cultural é mais que um evento...
-</p>
-
-<!-- Cards de Informação - Linha ~105 -->
-<h3 class="card-title">Música & Conexão</h3>
-<p class="card-text">
-    Reunimos amigos através da música...
-</p>
-```
-
-### 2. Line-up de Artistas
-
-**Arquivo:** `templates/index.html` (Linha ~165)
-
-```html
-<div class="artist-card gradient-spring">
-    <h3 class="artist-name">TRIO PRIMAVERA</h3>  <!-- Nome do Artista -->
-    <p class="artist-description">
-        Abertura especial celebrando...  <!-- Descrição -->
-    </p>
-</div>
-```
-
-### 3. Informações do Modal
-
-**Arquivo:** `templates/index.html` (Linha ~250)
-
-```html
-<div class="form-notes">
-    <p><strong>Local:</strong> Será revelado após confirmação</p>
-    <p><strong>Entrada:</strong> Código QR será enviado por email</p>
-    <p><strong>Brinde:</strong> Apenas para os primeiros 15 inscritos</p>
-</div>
-```
-
-### 4. Preços e Configurações
-
-**Arquivo:** `config.py`
-
-```python
-# Capacidade do evento
-EVENTO_CAPACIDADE = 150
-
-# Quantidade de brindes especiais
-BRINDES_LIMITADOS = 15
-
-# Preço do ingresso
-PRECO_INGRESSO = float(os.environ.get('PRECO_INGRESSO', '25.00'))
-
-# Informações do evento
-EVENTO_NOME = 'Florescer Cultural'
-EVENTO_DATA = '20/09/2025'
-EVENTO_HORARIO = '15:00 - 23:00'
-```
-
-## 🎨 Como Alterar Cores e Estilos
-
-### 1. Paleta de Cores
-
-**Arquivo:** `static/css/style.css` (Linha ~15)
-
+### Cores Principais
 ```css
 :root {
-    --gold-light: #E1C16E;    /* Dourado claro */
-    --gold-medium: #C7A44C;   /* Dourado médio */
-    --gold-dark: #B8943A;     /* Dourado escuro */
-    --black: #000000;         /* Preto absoluto */
-    --white: #FFFFFF;         /* Branco */
+    /* Background Celestial */
+    --sky-blue: #5c98fa;        /* Céu do flyer */
+    --cloud-white: #edeeee;     /* Nuvens do flyer */
+    
+    /* Texto */
+    --text-gold: #fbed41;       /* Dourado do flyer */
+    --text-white: #ffffff;      /* Branco do flyer */
+    
+    /* Flores Vibrantes */
+    --flower-pink-1: #fe74a5;   /* Rosa principal */
+    --flower-pink-2: #b5005c;   /* Rosa escuro */
+    --flower-pink-3: #c82050;   /* Rosa médio */
+    --flower-coral: #fc898e;    /* Coral */
+    --flower-yellow: #ffdc7a;   /* Amarelo claro */
+    --flower-yellow-dark: #dfa40a; /* Amarelo escuro */
+    --flower-green-1: #4c8d0e;  /* Verde escuro */
+    --flower-green-2: #59af00;  /* Verde médio */
+    --flower-green-3: #3fad43;  /* Verde claro */
 }
 ```
 
-**Para alterar:** Substitua os códigos hexadecimais pelas cores desejadas.
+### Como Personalizar Cores
 
-### 2. Fontes
-
-**Arquivo:** `static/css/style.css` (Linha ~30)
+Para alterar a paleta de cores, edite as variáveis CSS no arquivo `templates/index.html` na seção `<style>`:
 
 ```css
-.font-cinzel {
-    font-family: 'Cinzel Decorative', serif;  /* Títulos principais */
-}
-
-.font-playfair {
-    font-family: 'Playfair Display', serif;   /* Subtítulos */
-}
-
-.font-montserrat {
-    font-family: 'Montserrat', sans-serif;    /* Texto corrido */
+/* Exemplo: Mudança para tema roxo */
+:root {
+    --sky-blue: #6a5acd;        /* Novo fundo */
+    --flower-pink-1: #9370db;   /* Novo destaque */
+    /* ... outras variáveis */
 }
 ```
 
-### 3. Tamanhos de Fonte
+## 🎵 Sistema de Lineup Configurável
 
-```css
-.main-title {
-    font-size: clamp(3rem, 8vw, 6rem);  /* Título principal */
-}
+### Arquivo JSON (data/lineup.json)
 
-.section-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);  /* Títulos de seção */
-}
+O lineup é agora controlado por um arquivo JSON, facilitando atualizações:
+
+```json
+[
+  {
+    "id": "artista_unico_id",
+    "nome": "NOME DO ARTISTA",
+    "horario": "13:00",
+    "duracao": "1h30",
+    "horario_completo": "13:00 - 14:30",
+    "ordem": 1,
+    "cor_destaque": "#fe74a5",
+    "bio": "Descrição do artista e sua apresentação.",
+    "redes_sociais": {
+      "instagram": "https://instagram.com/artista",
+      "spotify": "https://open.spotify.com/artist/123",
+      "soundcloud": "https://soundcloud.com/artista"
+    }
+  }
+]
 ```
 
-## 📍 Informações Específicas do Local
+### Campos Obrigatórios
 
-### 1. Local do Evento
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `id` | String | Identificador único (sem espaços) |
+| `nome` | String | Nome do artista (MAIÚSCULO recomendado) |
+| `horario` | String | Horário de início (formato "HH:MM") |
+| `duracao` | String | Duração da apresentação |
+| `ordem` | Number | Ordem de apresentação |
+| `cor_destaque` | String | Cor em hexadecimal |
+| `bio` | String | Biografia/descrição do artista |
 
-**Arquivo:** `templates/confirmacao.html` (Linha ~85)
+### Campos Opcionais
 
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `redes_sociais` | Object | Links para Instagram, Spotify, SoundCloud |
+| `horario_completo` | String | Formato "HH:MM - HH:MM" |
+
+### Cores Sugeridas para Artistas
+
+Use as cores do flyer para manter consistência visual:
+
+```json
+"cor_destaque": "#fe74a5"  // Rosa principal
+"cor_destaque": "#ffdc7a"  // Amarelo vibrante
+"cor_destaque": "#59af00"  // Verde médio
+"cor_destaque": "#c82050"  // Rosa escuro
+"cor_destaque": "#fc898e"  // Coral
+"cor_destaque": "#dfa40a"  // Dourado
+"cor_destaque": "#4c8d0e"  // Verde escuro
+"cor_destaque": "#3fad43"  // Verde claro
+```
+
+## 🚀 ALTERAÇÕES ESSENCIAIS - GUIA RÁPIDO
+
+### ⚡ Informações Fundamentais do Evento
+
+**Para alterar as informações principais, edite diretamente no arquivo `templates/index.html`:**
+
+#### 🎫 **Link de Inscrições (SYMPLA)**
+**Localização:** Linha ~944
 ```html
-<div class="detail-content">
-    <h4>Local Revelado!</h4>
-    <p><strong>Ninho do Largo</strong><br>
-    R. Desembargador Ermelino de Leão, 511<br>
-    Matriz, Curitiba</p>
-</div>
+<a href="https://www.sympla.com.br/evento/florescer-cultural---curitiba/3085364"
 ```
+**Como alterar:** Substitua a URL completa pelo novo link do evento.
 
-### 2. WhatsApp para Contato
-
-**Arquivo:** `.env`
-
-```env
-WHATSAPP_NUMERO=5541999999999  # Substitua pelo seu número
-```
-
-**Arquivo:** `config.py`
-
-```python
-WHATSAPP_NUMERO = os.environ.get('WHATSAPP_NUMERO') or '5541999999999'
-```
-
-## 📊 Capacidade e Limites
-
-### 1. Alterar Capacidade Total
-
-**Arquivo:** `config.py`
-
-```python
-EVENTO_CAPACIDADE = 150  # Mude para a capacidade desejada
-```
-
-### 2. Alterar Quantidade de Brindes
-
-**Arquivo:** `config.py`
-
-```python
-BRINDES_LIMITADOS = 15  # Mude para a quantidade desejada
-```
-
-### 3. Alterar Preço
-
-**Arquivo:** `.env`
-
-```env
-PRECO_INGRESSO=25.00  # Substitua pelo preço desejado
-```
-
-## 🎵 Line-up e Horários
-
-### 1. Adicionar/Remover Artistas
-
-**Arquivo:** `templates/index.html` (Linha ~165)
-
+#### 📅 **Data do Evento**
+**Localização:** Linha ~714 (visual) e linha ~934 (countdown)
 ```html
-<!-- Para adicionar um novo artista, copie este bloco: -->
-<div class="lineup-item animate-on-scroll" data-time="21:00">
-    <div class="time-marker">
-        <span class="time">21:00 - 23:00</span>  <!-- Horário -->
-    </div>
-    <div class="artist-card gradient-finale">
-        <h3 class="artist-name">NOME DO ARTISTA</h3>  <!-- Nome -->
-        <p class="artist-description">
-            Descrição da performance...  <!-- Descrição -->
-        </p>
-        <div class="music-note">🎤</div>  <!-- Ícone -->
-    </div>
-</div>
+<!-- Visual -->
+<div class="event-date">21 de Setembro de 2025</div>
+
+<!-- Countdown JavaScript -->
+const eventDate = new Date('2025-09-21T13:00:00').getTime();
 ```
 
-### 2. Estilos de Gradiente para Artistas
-
-**Arquivo:** `static/css/style.css` (Linha ~650)
-
-```css
-.gradient-spring {   /* Verde primavera */
-    background: linear-gradient(135deg, rgba(34, 139, 34, 0.2), rgba(199, 164, 76, 0.2));
-}
-
-.gradient-sunset {   /* Laranja pôr do sol */
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(199, 164, 76, 0.2));
-}
-
-.gradient-night {    /* Roxo noturno */
-    background: linear-gradient(135deg, rgba(75, 0, 130, 0.2), rgba(199, 164, 76, 0.2));
-}
-
-.gradient-finale {   /* Vermelho final */
-    background: linear-gradient(135deg, rgba(220, 20, 60, 0.2), rgba(199, 164, 76, 0.2));
-}
-```
-
-## 📱 Configurações de Pagamento
-
-### 1. Mercado Pago
-
-**Arquivo:** `.env`
-
-```env
-MERCADOPAGO_ACCESS_TOKEN=seu_token_aqui
-MERCADOPAGO_PUBLIC_KEY=sua_chave_publica_aqui
-```
-
-### 2. Mensagem do WhatsApp
-
-**Arquivo:** `config.py`
-
-```python
-MENSAGEM_WHATSAPP = """
-🌸 *Florescer Cultural - 20/09/2025*
-
-Olá! Gostaria de finalizar minha inscrição no evento.
-
-*Dados da inscrição:*
-• Código: {codigo}
-• Nome: {nome}
-• Email: {email}
-
-*Valor:* R$ {preco}
-
-Aguardo instruções para pagamento! 🎵
-""".strip()
-```
-
-## 🎨 Personalização Visual Avançada
-
-### 1. Animações
-
-**Para desabilitar animações:**
-
-**Arquivo:** `static/css/style.css`
-
-```css
-/* Adicione no final do arquivo */
-.animate-fade-in,
-.animate-on-scroll {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-}
-```
-
-### 2. Bordas e Sombras
-
-```css
-.info-card, .about-card {
-    border-radius: 12px;        /* Arredondar cantos */
-    box-shadow: 0 4px 20px rgba(199, 164, 76, 0.2);  /* Sombra */
-}
-```
-
-### 3. Espaçamentos
-
-```css
-.hero-section {
-    padding: 100px 20px;  /* Espaçamento interno */
-}
-
-.about-section {
-    padding: 100px 0;     /* Espaçamento entre seções */
-}
-```
-
-## 🔧 Utilitários Rápidos
-
-### 1. Ocultar Seções
-
-```css
-/* Para ocultar uma seção específica */
-.lineup-section {
-    display: none;
-}
-```
-
-### 2. Alterar Ordem das Seções
-
-**Arquivo:** `templates/index.html`
-
-Mova os blocos `<section>` para reordenar as seções.
-
-### 3. Adicionar Nova Seção
-
+#### ⏰ **Horário**
+**Localização:** Linha ~735
 ```html
-<!-- Copie este template: -->
-<section class="nova-secao">
-    <div class="container">
-        <h2 class="section-title font-playfair">Título da Nova Seção</h2>
-        <p class="section-description">
-            Descrição da nova seção...
-        </p>
-    </div>
-</section>
+<h3 class="detail-title">7 horas de música</h3>
+<p class="detail-info">Das 13h às 20h</p>
 ```
 
-## ⚡ Comandos Úteis
-
-### 1. Aplicar Mudanças
-
-```bash
-# Após alterar qualquer arquivo:
-# Salve o arquivo e recarregue a página (F5)
-# Ou reinicie o servidor:
-python run.py
+#### 📍 **Local**
+**Localização:** Linhas ~863-869
+```html
+<h2 class="location-title">Ninho do Largo</h2>
+<p><strong>R. Desembargador Ermelino de Leão, 511</strong></p>
+<p>Centro Histórico, Curitiba - PR</p>
 ```
 
-### 2. Limpar Cache
-
-```bash
-# Se as mudanças não aparecem:
-# Pressione Ctrl+F5 (Windows) ou Cmd+Shift+R (Mac)
+#### 🎤 **Mestre de Cerimônia**
+**Localização:** Linha ~939
+```html
+<div class="mc-name">NACHI</div>
 ```
 
-### 3. Ver Erros
-
-```bash
-# Abra o console do navegador (F12)
-# Aba "Console" para ver erros JavaScript
-# Aba "Network" para ver erros de carregamento
+#### 🎁 **Quantidade de Brindes**
+**Localização:** Linha ~950
+```html
+Os primeiros <strong>10 nomes na lista</strong> ganham brinde exclusivo
 ```
-
-## 📋 Checklist de Personalização
-
-- [ ] Alterar nome do evento
-- [ ] Alterar data e horários
-- [ ] Configurar line-up de artistas
-- [ ] Ajustar capacidade e brindes
-- [ ] Configurar preços
-- [ ] Personalizar cores (se necessário)
-- [ ] Configurar WhatsApp
-- [ ] Configurar Mercado Pago
-- [ ] Testar formulário de inscrição
-- [ ] Verificar responsividade mobile
 
 ---
 
-**💡 Dica:** Sempre faça backup dos arquivos antes de grandes alterações!
+## 📝 Personalizações Rápidas
 
-**🆘 Problema?** Verifique o console do navegador (F12) para mensagens de erro.
+### 1. Alterar Informações do Evento
+
+Edite diretamente no HTML (`templates/index.html`):
+
+```html
+<!-- Data do evento -->
+<div class="event-date">
+    21 de Setembro de 2025  <!-- ALTERE AQUI -->
+</div>
+
+<!-- Nome do evento -->
+<h1 class="hero-title">
+    Florescer<br>Cultural  <!-- ALTERE AQUI -->
+</h1>
+
+<!-- Countdown JavaScript -->
+<script>
+    const eventDate = new Date('2025-09-21T13:00:00').getTime(); // ALTERE AQUI
+</script>
+```
+
+### 2. Modificar Local do Evento
+
+```html
+<!-- Card do local -->
+<h2 class="location-title">Ninho do Largo</h2> <!-- ALTERE AQUI -->
+<p><strong>R. Desembargador Ermelino de Leão, 511</strong></p> <!-- ALTERE AQUI -->
+<p>Centro Histórico, Curitiba - PR</p> <!-- ALTERE AQUI -->
+
+<!-- Mapa do Google -->
+<iframe src="https://www.google.com/maps/embed?pb=..."> <!-- ATUALIZE URL -->
+```
+
+### 3. Alterar Link de Inscrições
+
+```html
+<a href="https://www.sympla.com.br/evento/florescer-cultural---curitiba/3085364" 
+   target="_blank" 
+   class="btn-primary">
+    Garantir nome na lista  <!-- ALTERE TEXTO SE NECESSÁRIO -->
+</a>
+```
+
+### 4. Personalizar Mestre de Cerimônia
+
+```html
+<div class="mc-section">
+    <div class="mc-label">Mestre de cerimônia</div>
+    <div class="mc-name">NACHI</div> <!-- ALTERE AQUI -->
+</div>
+```
+
+## 🎨 Personalizações Avançadas
+
+### Elementos Florais de Fundo
+
+Para alterar os elementos flutuantes:
+
+```css
+body::before {
+    background: radial-gradient(circle, var(--flower-pink-1) 0%, transparent 70%);
+    /* Altere --flower-pink-1 para outra cor */
+}
+
+body::after {
+    background: radial-gradient(circle, var(--flower-yellow) 0%, transparent 70%);
+    /* Altere --flower-yellow para outra cor */
+}
+```
+
+### Animações
+
+Para desabilitar animações (acessibilidade):
+
+```css
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+```
+
+### Gradientes Personalizados
+
+```css
+/* Exemplo de novo gradiente para títulos */
+.hero-title {
+    background: linear-gradient(135deg, #your-color-1, #your-color-2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+```
+
+## 📱 Responsividade
+
+### Breakpoints Utilizados
+
+```css
+/* Tablet */
+@media (max-width: 768px) {
+    /* Ajustes para tablet */
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    /* Ajustes para mobile */
+}
+```
+
+### Personalizações Mobile
+
+Para ajustar elementos específicos no mobile:
+
+```css
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.5rem; /* Título menor no mobile */
+    }
+    
+    .countdown-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas no mobile */
+    }
+}
+```
+
+## 🚀 Otimizações de Performance
+
+### Lazy Loading de Imagens
+
+Para adicionar imagens com lazy loading:
+
+```html
+<img data-src="caminho/para/imagem.jpg" 
+     alt="Descrição da imagem"
+     class="lazy">
+```
+
+### Minificação
+
+Para produção, considere minificar o CSS e JavaScript usando ferramentas como:
+- **CSS**: cssnano, clean-css
+- **JavaScript**: terser, uglify-js
+
+## 🔧 Troubleshooting
+
+### Problemas Comuns
+
+1. **Cores não aparecem**: Verifique se as variáveis CSS estão definidas corretamente
+2. **Lineup não atualiza**: Confirme que o arquivo `data/lineup.json` está válido
+3. **Animações lentas**: Considere reduzir `animation-duration` nos elementos
+4. **Layout quebrado no mobile**: Teste com diferentes tamanhos de tela
+
+### Validação do JSON
+
+Para verificar se o arquivo JSON está válido:
+
+```bash
+python3 -c "
+import json
+with open('data/lineup.json', 'r') as f:
+    data = json.load(f)
+    print('✅ JSON válido!')
+    print(f'📊 {len(data)} artistas encontrados')
+"
+```
+
+## 📈 Próximos Passos
+
+### Funcionalidades Futuras
+
+1. **CMS Integration**: Sistema de gerenciamento de conteúdo
+2. **Multi-idioma**: Suporte para português e inglês
+3. **PWA**: Progressive Web App capabilities
+4. **Analytics**: Integração com Google Analytics 4
+5. **Newsletter**: Sistema de inscrição para updates
+
+### Melhorias de Performance
+
+1. **WebP Images**: Converter imagens para formato WebP
+2. **Critical CSS**: Extrair CSS crítico para above-the-fold
+3. **Service Worker**: Cache inteligente para offline
+4. **CDN**: Content Delivery Network para assets
+
+## 📞 Suporte
+
+Para dúvidas sobre personalização:
+
+1. **Consulte este guia** primeiro
+2. **Teste em ambiente local** antes de fazer deploy
+3. **Valide HTML/CSS** usando ferramentas online
+4. **Teste responsividade** em múltiplos dispositivos
+
+---
+
+## 🌸 Créditos
+
+**Design**: Baseado na identidade visual do flyer Florescer Cultural 2025
+**Desenvolvimento**: Sistema otimizado com foco em performance e acessibilidade
+**Paleta**: Extraída diretamente das cores oficiais do evento
+
+*Desenvolvido com 🌸 para celebrar a primavera*
