@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Florescer Cultural - 20/09/2025{% endblock %}</title>
+    
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="Celebre a chegada da primavera com música, arte e consciência ambiental. Um evento único onde a cultura encontra a natureza.">
+    <meta name="keywords" content="evento cultural, música, primavera, arte, sustentabilidade, Curitiba">
+    <meta name="author" content="Florescer Cultural">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Florescer Cultural - Onde a música encontra a primavera">
+    <meta property="og:description" content="Celebre a chegada da primavera com música, arte e consciência ambiental.">
+    <meta property="og:locale" content="pt_BR">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Florescer Cultural - 20/09/2025">
+    <meta property="twitter:description" content="Celebre a chegada da primavera com música, arte e consciência ambiental.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <meta name="theme-color" content="#C7A44C">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-flower">🌸</div>
+            <h2 class="loading-text">Florescer Cultural</h2>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        <span>{{ message }}</span>
+                        <button onclick="this.parentElement.remove()" class="close-flash">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">Florescer Cultural</h3>
+                <p class="footer-text">"Onde a música encontra a primavera"</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="footer-subtitle">Contato</h4>
+                <p class="footer-text">📱 WhatsApp para dúvidas</p>
+                <p class="footer-text">📧 florescer.cultural@email.com</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="footer-subtitle">Redes Sociais</h4>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/ninhodolargo/" target="_blank" class="social-link">
+                        📸 @ninhodolargo
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Florescer Cultural. Todos os direitos reservados.</p>
+            <p>Desenvolvido com 🌸 para celebrar a primavera</p>
+        </div>
+    </footer>
+
+    <!-- Scripts adicionais -->
+    {% block scripts %}{% endblock %}
+    
+    <script>
+        // Remover loading screen quando página carregar
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            if (loadingScreen) {
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }, 1000);
+            }
+        });
+
+        // Auto-remover flash messages
+        setTimeout(() => {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach(msg => {
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 300);
+            });
+        }, 5000);
+    </script>
+</body>
+</html>

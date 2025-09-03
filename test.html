@@ -1,0 +1,57 @@
+<form id="form-inscricao" class="inscription-form">
+            <div class="form-group">
+                <label for="nome">Nome Completo</label>
+                <input type="text" id="nome" name="nome" required="">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required="">
+            </div>
+            
+            <div class="form-group">
+                <label for="telefone">Telefone/WhatsApp</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="(41) 99999-9999" required="">
+            </div>
+            
+            <div class="form-group">
+                <label>Método de Pagamento</label>
+                <div class="payment-options">
+                    <label class="payment-option">
+                        <input type="radio" name="metodo_pagamento" value="mercadopago" checked="">
+                        <span class="payment-text">
+                            <strong>Mercado Pago</strong>
+                            <small>Cartão de crédito/débito/PIX</small>
+                        </span>
+                    </label>
+                    
+                    <label class="payment-option">
+                        <input type="radio" name="metodo_pagamento" value="whatsapp">
+                        <span class="payment-text">
+                            <strong>WhatsApp</strong>
+                            <small>PIX via WhatsApp</small>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="price-info">
+                <div class="price-row">
+                    <span>Valor do ingresso:</span>
+                    <span class="price">R$ 25,00</span>
+                </div>
+                <div class="special-offer">
+                    <span id="brinde-status" class="special-offer">Você está concorrendo ao brinde especial!</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-primary btn-full" id="btn-submit">
+                Finalizar Inscrição
+            </button>
+            
+            <div class="form-notes">
+                <p><strong>Local:</strong> Será revelado após confirmação</p>
+                <p><strong>Entrada:</strong> Código QR será enviado por email</p>
+                <p><strong>Brinde:</strong> Apenas para os primeiros 15 inscritos</p>
+            </div>
+        </form>

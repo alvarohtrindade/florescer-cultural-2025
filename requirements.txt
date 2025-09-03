@@ -1,0 +1,12 @@
+Flask
+python-dotenv
+qrcode[pil]
+mercadopago
+requests
+Werkzeug
+Jinja2
+itsdangerous
+click
+blinker
+Pillow
+mercadopago

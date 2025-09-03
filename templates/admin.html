@@ -1,0 +1,808 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - Florescer Cultural{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="container">
+        <div class="admin-header">
+            <h1 class="admin-title font-cinzel">Painel Administrativo</h1>
+            <p class="admin-subtitle font-playfair">Florescer Cultural - 20/09/2025</p>
+        </div>
+
+        <!-- Estatísticas Gerais -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ stats.total_inscritos }}</h3>
+                    <p class="stat-label">Total de Inscritos</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🎫</div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ stats.vagas_restantes }}</h3>
+                    <p class="stat-label">Vagas Restantes</p>
+                </div>
+            </div>
+
+            <div class="stat-card special">
+                <div class="stat-icon">🎁</div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ stats.com_brinde }}</h3>
+                    <p class="stat-label">Com Brinde Especial</p>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ "%.1f"|format((stats.total_inscritos / 150 * 100)) }}%</h3>
+                    <p class="stat-label">Ocupação</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progresso de Vendas -->
+        <div class="progress-section">
+            <h2 class="section-title">Progresso de Vendas</h2>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ (stats.total_inscritos / 150 * 100) }}%"></div>
+                </div>
+                <div class="progress-info">
+                    <span>{{ stats.total_inscritos }} / 150 inscritos</span>
+                    <span>{{ "%.1f"|format((stats.total_inscritos / 150 * 100)) }}% completo</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progresso de Brindes -->
+        <div class="progress-section">
+            <h2 class="section-title">Brindes Especiais</h2>
+            <div class="progress-container">
+                <div class="progress-bar special">
+                    <div class="progress-fill special" style="width: {{ (stats.com_brinde / 15 * 100) }}%"></div>
+                </div>
+                <div class="progress-info">
+                    <span>{{ stats.com_brinde }} / 15 brindes distribuídos</span>
+                    <span>{{ 15 - stats.com_brinde }} restantes</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros e Ações -->
+        <div class="admin-controls">
+            <div class="filter-controls">
+                <input type="text" id="search-participants" placeholder="Buscar participante..." class="search-input">
+                <select id="filter-brinde" class="filter-select">
+                    <option value="">Todos</option>
+                    <option value="com-brinde">Com Brinde</option>
+                    <option value="sem-brinde">Sem Brinde</option>
+                </select>
+                <button onclick="exportCSV()" class="btn-secondary">📊 Exportar CSV</button>
+                <button onclick="window.print()" class="btn-secondary">🖨️ Imprimir Lista</button>
+            </div>
+        </div>
+
+        <!-- Lista de Participantes -->
+        <div class="participants-section">
+            <h2 class="section-title">Lista de Participantes</h2>
+            
+            {% if participantes %}
+            <div class="table-container">
+                <table class="participants-table" id="participants-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>Código</th>
+                            <th>Brinde</th>
+                            <th>Pagamento</th>
+                            <th>Data</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for participante in participantes %}
+                        <tr class="participant-row" data-brinde="{{ 'com-brinde' if participante[5] else 'sem-brinde' }}">
+                            <td>{{ loop.index }}</td>
+                            <td class="participant-name">{{ participante[1] }}</td>
+                            <td>{{ participante[2] }}</td>
+                            <td>{{ participante[3] or '-' }}</td>
+                            <td class="participant-code">{{ participante[4] }}</td>
+                            <td>
+                                {% if participante[5] %}
+                                <span class="badge badge-gift">🎁 Sim</span>
+                                {% else %}
+                                <span class="badge badge-normal">➖ Não</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="badge badge-{{ participante[7] or 'pendente' }}">
+                                    {{ (participante[7] or 'pendente').title() }}
+                                </span>
+                            </td>
+                            <td class="participant-date">
+                                {{ participante[6].split('.')[0].replace('T', ' ') if participante[6] else 'N/A' }}
+                            </td>
+                            <td class="actions">
+                                <button onclick="viewQRCode('{{ participante[4] }}')" class="btn-small" title="Ver QR Code">
+                                    📱
+                                </button>
+                                <button onclick="sendWhatsApp('{{ participante[4] }}', '{{ participante[1] }}')" class="btn-small" title="WhatsApp">
+                                    💬
+                                </button>
+                                <button onclick="copyCode('{{ participante[4] }}')" class="btn-small" title="Copiar Código">
+                                    📋
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <div class="empty-icon">📭</div>
+                <h3>Nenhum participante ainda</h3>
+                <p>As inscrições aparecerão aqui conforme forem realizadas.</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Relatórios Rápidos -->
+        <div class="reports-section">
+            <h2 class="section-title">Relatórios Rápidos</h2>
+            <div class="reports-grid">
+                <div class="report-card">
+                    <h4>Por Método de Pagamento</h4>
+                    <div class="report-stats">
+                        <div class="report-item">
+                            <span>Mercado Pago:</span>
+                            <strong id="mp-count">0</strong>
+                        </div>
+                        <div class="report-item">
+                            <span>WhatsApp:</span>
+                            <strong id="wa-count">0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h4>Por Horário</h4>
+                    <div class="report-stats">
+                        <div class="report-item">
+                            <span>Últimas 24h:</span>
+                            <strong id="last24h-count">0</strong>
+                        </div>
+                        <div class="report-item">
+                            <span>Última semana:</span>
+                            <strong id="lastweek-count">0</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-card">
+                    <h4>Receita Estimada</h4>
+                    <div class="report-stats">
+                        <div class="report-item">
+                            <span>Total:</span>
+                            <strong>R$ {{ "%.2f"|format(stats.total_inscritos * 25.00) }}</strong>
+                        </div>
+                        <div class="report-item">
+                            <span>Meta (150):</span>
+                            <strong>R$ 3.750,00</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal QR Code -->
+<div id="qr-modal" class="modal" style="display: none;">
+    <div class="modal-content qr-modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">QR Code do Participante</h3>
+            <button class="modal-close" onclick="closeQRModal()">&times;</button>
+        </div>
+        <div class="qr-modal-body">
+            <img id="qr-image" src="" alt="QR Code" class="qr-display">
+            <div class="qr-info">
+                <p><strong>Código:</strong> <span id="qr-code-text"></span></p>
+                <p><strong>Nome:</strong> <span id="qr-name-text"></span></p>
+            </div>
+            <div class="qr-actions">
+                <button onclick="downloadQR()" class="btn-secondary">📥 Baixar</button>
+                <button onclick="printQR()" class="btn-secondary">🖨️ Imprimir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="qr-overlay" class="modal-overlay" onclick="closeQRModal()" style="display: none;"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Busca de participantes
+document.getElementById('search-participants').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('.participant-row');
+    
+    rows.forEach(row => {
+        const name = row.querySelector('.participant-name').textContent.toLowerCase();
+        const email = row.cells[2].textContent.toLowerCase();
+        const code = row.querySelector('.participant-code').textContent.toLowerCase();
+        
+        if (name.includes(searchTerm) || email.includes(searchTerm) || code.includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+
+// Filtro por brinde
+document.getElementById('filter-brinde').addEventListener('change', function(e) {
+    const filter = e.target.value;
+    const rows = document.querySelectorAll('.participant-row');
+    
+    rows.forEach(row => {
+        if (!filter || row.dataset.brinde === filter) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+
+// Exportar CSV
+function exportCSV() {
+    const rows = Array.from(document.querySelectorAll('.participant-row:not([style*="display: none"])'));
+    const headers = ['Nome', 'Email', 'Telefone', 'Código', 'Brinde', 'Pagamento', 'Data'];
+    
+    let csvContent = headers.join(',') + '\n';
+    
+    rows.forEach(row => {
+        const cells = Array.from(row.cells).slice(1, -1); // Remove # e Ações
+        const rowData = cells.map(cell => {
+            let text = cell.textContent.trim();
+            // Limpar badges e emojis
+            text = text.replace(/🎁|➖|Sim|Não/g, '').trim();
+            return `"${text}"`;
+        });
+        csvContent += rowData.join(',') + '\n';
+    });
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `florescer-cultural-participantes-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+
+// Visualizar QR Code
+function viewQRCode(codigo) {
+    const modal = document.getElementById('qr-modal');
+    const overlay = document.getElementById('qr-overlay');
+    const qrImage = document.getElementById('qr-image');
+    const codeText = document.getElementById('qr-code-text');
+    
+    // Buscar informações do participante
+    const row = Array.from(document.querySelectorAll('.participant-row')).find(r => 
+        r.querySelector('.participant-code').textContent === codigo
+    );
+    
+    if (row) {
+        const nome = row.querySelector('.participant-name').textContent;
+        qrImage.src = `/static/qrcodes/${codigo}.png`;
+        codeText.textContent = codigo;
+        document.getElementById('qr-name-text').textContent = nome;
+        
+        modal.style.display = 'block';
+        overlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeQRModal() {
+    document.getElementById('qr-modal').style.display = 'none';
+    document.getElementById('qr-overlay').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Baixar QR Code
+function downloadQR() {
+    const qrImage = document.getElementById('qr-image');
+    const codigo = document.getElementById('qr-code-text').textContent;
+    
+    const link = document.createElement('a');
+    link.href = qrImage.src;
+    link.download = `qr-code-${codigo}.png`;
+    link.click();
+}
+
+// Imprimir QR Code
+function printQR() {
+    const qrImage = document.getElementById('qr-image');
+    const codigo = document.getElementById('qr-code-text').textContent;
+    const nome = document.getElementById('qr-name-text').textContent;
+    
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>QR Code - ${codigo}</title>
+                <style>
+                    body { font-family: Arial; text-align: center; padding: 20px; }
+                    img { max-width: 300px; border: 2px solid #C7A44C; border-radius: 8px; }
+                    h2 { color: #C7A44C; margin: 20px 0; }
+                    p { margin: 10px 0; font-size: 18px; }
+                </style>
+            </head>
+            <body>
+                <h1>Florescer Cultural</h1>
+                <h2>20/09/2025</h2>
+                <img src="${qrImage.src}" alt="QR Code">
+                <p><strong>Código:</strong> ${codigo}</p>
+                <p><strong>Participante:</strong> ${nome}</p>
+                <p>Apresente este código na entrada do evento</p>
+            </body>
+        </html>
+    `);
+    printWindow.document.close();
+    printWindow.print();
+}
+
+// Enviar WhatsApp
+function sendWhatsApp(codigo, nome) {
+    const mensagem = `Olá ${nome}! Seu código do Florescer Cultural é: ${codigo}. Aguardamos você no dia 20/09! 🌸`;
+    const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+}
+
+// Copiar código
+function copyCode(codigo) {
+    navigator.clipboard.writeText(codigo).then(() => {
+        // Feedback visual
+        const button = event.target;
+        const originalText = button.textContent;
+        button.textContent = '✓';
+        button.style.background = '#4CAF50';
+        
+        setTimeout(() => {
+            button.textContent = originalText;
+            button.style.background = '';
+        }, 1500);
+    });
+}
+
+// Calcular estatísticas por método de pagamento
+function calculatePaymentStats() {
+    const rows = document.querySelectorAll('.participant-row');
+    let mpCount = 0, waCount = 0;
+    
+    rows.forEach(row => {
+        const paymentBadge = row.querySelector('.badge-mercadopago, .badge-whatsapp');
+        if (paymentBadge) {
+            if (paymentBadge.classList.contains('badge-mercadopago')) mpCount++;
+            if (paymentBadge.classList.contains('badge-whatsapp')) waCount++;
+        }
+    });
+    
+    document.getElementById('mp-count').textContent = mpCount;
+    document.getElementById('wa-count').textContent = waCount;
+}
+
+// Calcular estatísticas por período
+function calculateTimeStats() {
+    const rows = document.querySelectorAll('.participant-row');
+    const now = new Date();
+    const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const lastWeek = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    
+    let last24h = 0, lastWeek = 0;
+    
+    rows.forEach(row => {
+        const dateCell = row.querySelector('.participant-date');
+        if (dateCell && dateCell.textContent !== 'N/A') {
+            const participantDate = new Date(dateCell.textContent);
+            if (participantDate > yesterday) last24h++;
+            if (participantDate > lastWeek) lastWeek++;
+        }
+    });
+    
+    document.getElementById('last24h-count').textContent = last24h;
+    document.getElementById('lastweek-count').textContent = lastWeek;
+}
+
+// Atualizar estatísticas na carga da página
+document.addEventListener('DOMContentLoaded', function() {
+    calculatePaymentStats();
+    calculateTimeStats();
+    
+    // Auto-refresh a cada 2 minutos
+    setInterval(() => {
+        window.location.reload();
+    }, 120000);
+});
+
+// Atalhos de teclado
+document.addEventListener('keydown', function(e) {
+    if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+            case 'f': // Ctrl+F para busca
+                e.preventDefault();
+                document.getElementById('search-participants').focus();
+                break;
+            case 'e': // Ctrl+E para exportar
+                e.preventDefault();
+                exportCSV();
+                break;
+            case 'p': // Ctrl+P para imprimir
+                e.preventDefault();
+                window.print();
+                break;
+        }
+    }
+});
+</script>
+
+<style>
+.admin-section {
+    padding: 50px 20px;
+    min-height: 100vh;
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.admin-title {
+    font-size: 3rem;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+}
+
+.admin-subtitle {
+    font-size: 1.5rem;
+    color: var(--gold-medium);
+    font-style: italic;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: rgba(199, 164, 76, 0.1);
+    border: 1px solid rgba(199, 164, 76, 0.3);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold-medium);
+}
+
+.stat-card.special {
+    border-color: var(--gold-medium);
+    background: rgba(199, 164, 76, 0.15);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+    font-family: 'Cinzel Decorative', serif;
+}
+
+.stat-label {
+    color: var(--gold-medium);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.progress-section {
+    margin-bottom: 2rem;
+}
+
+.progress-container {
+    background: rgba(199, 164, 76, 0.1);
+    border: 1px solid rgba(199, 164, 76, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.progress-bar {
+    height: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-light), var(--gold-medium));
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+.progress-fill.special {
+    background: linear-gradient(90deg, #FFD700, var(--gold-medium));
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    color: var(--gold-medium);
+    font-size: 0.9rem;
+}
+
+.admin-controls {
+    background: rgba(199, 164, 76, 0.05);
+    border: 1px solid rgba(199, 164, 76, 0.2);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search-input, .filter-select {
+    padding: 0.75rem;
+    border: 1px solid rgba(199, 164, 76, 0.3);
+    border-radius: 8px;
+    background: rgba(199, 164, 76, 0.1);
+    color: var(--gold-light);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-input:focus, .filter-select:focus {
+    outline: none;
+    border-color: var(--gold-medium);
+}
+
+.table-container {
+    overflow-x: auto;
+    background: rgba(199, 164, 76, 0.05);
+    border: 1px solid rgba(199, 164, 76, 0.2);
+    border-radius: 12px;
+}
+
+.participants-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.participants-table th {
+    background: rgba(199, 164, 76, 0.2);
+    color: var(--gold-light);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid rgba(199, 164, 76, 0.3);
+}
+
+.participants-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(199, 164, 76, 0.1);
+    color: var(--gold-medium);
+}
+
+.participant-row:hover {
+    background: rgba(199, 164, 76, 0.05);
+}
+
+.badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.badge-gift {
+    background: rgba(255, 215, 0, 0.2);
+    color: #FFD700;
+    border: 1px solid #FFD700;
+}
+
+.badge-normal {
+    background: rgba(199, 164, 76, 0.2);
+    color: var(--gold-medium);
+    border: 1px solid var(--gold-medium);
+}
+
+.badge-pendente {
+    background: rgba(255, 193, 7, 0.2);
+    color: #FFC107;
+    border: 1px solid #FFC107;
+}
+
+.badge-mercadopago {
+    background: rgba(0, 123, 191, 0.2);
+    color: #007BBF;
+    border: 1px solid #007BBF;
+}
+
+.badge-whatsapp {
+    background: rgba(37, 211, 102, 0.2);
+    color: #25D366;
+    border: 1px solid #25D366;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-small {
+    padding: 0.5rem;
+    background: rgba(199, 164, 76, 0.2);
+    border: 1px solid rgba(199, 164, 76, 0.3);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-small:hover {
+    background: var(--gold-medium);
+    color: var(--black);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--gold-medium);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.report-card {
+    background: rgba(199, 164, 76, 0.1);
+    border: 1px solid rgba(199, 164, 76, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.report-card h4 {
+    color: var(--gold-light);
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.report-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.report-item {
+    display: flex;
+    justify-content: space-between;
+    color: var(--gold-medium);
+}
+
+.report-item strong {
+    color: var(--gold-light);
+}
+
+.qr-modal-content {
+    max-width: 500px;
+}
+
+.qr-modal-body {
+    padding: 2rem;
+    text-align: center;
+}
+
+.qr-display {
+    max-width: 200px;
+    border: 2px solid var(--gold-medium);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.qr-info {
+    margin-bottom: 1.5rem;
+    color: var(--gold-medium);
+}
+
+.qr-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-input {
+        min-width: auto;
+    }
+    
+    .participants-table {
+        font-size: 0.8rem;
+    }
+    
+    .participants-table th,
+    .participants-table td {
+        padding: 0.5rem;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+    
+    .reports-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media print {
+    .admin-controls,
+    .actions,
+    .floating-elements,
+    .footer {
+        display: none !important;
+    }
+    
+    .participants-table {
+        font-size: 10px;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+}
+</style>
+{% endblock %}

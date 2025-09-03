@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block title %}Confirmação - Florescer Cultural{% endblock %}
+
+{% block content %}
+<section class="confirmation-section">
+    <div class="container">
+        <div class="confirmation-card animate-fade-in">
+            <!-- Header de Sucesso -->
+            <div class="success-header">
+                <div class="success-icon">🌸</div>
+                <h1 class="success-title font-cinzel">Inscrição Confirmada!</h1>
+                <p class="success-subtitle font-playfair">
+                    Bem-vindo(a) ao Florescer Cultural, {{ dados.nome }}!
+                </p>
+            </div>
+
+            <!-- QR Code Section -->
+            <div class="qr-section">
+                <div class="qr-container">
+                    <img src="{{ url_for('static', filename='qrcodes/' + dados.codigo + '.png') }}" 
+                         alt="QR Code do Participante" class="qr-code">
+                    <div class="qr-info">
+                        <h3 class="qr-title">Seu Código de Entrada</h3>
+                        <div class="code-display">{{ dados.codigo }}</div>
+                        <p class="qr-description">
+                            Guarde este código! Apresente no dia do evento para receber sua pulseira.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações do Participante -->
+            <div class="participant-info">
+                <h3 class="info-title font-playfair">Seus Dados</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Nome:</span>
+                        <span class="info-value">{{ dados.nome }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">E-mail:</span>
+                        <span class="info-value">{{ dados.email }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Código:</span>
+                        <span class="info-value code-highlight">{{ dados.codigo }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Inscrição:</span>
+                        <span class="info-value">{{ dados.data_inscricao.split('.')[0].replace('T', ' ') if dados.data_inscricao else 'Hoje' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brinde Especial -->
+            {% if dados.tem_brinde %}
+            <div class="special-gift animate-pulse">
+                <div class="gift-icon">🎁</div>
+                <h3 class="gift-title">Parabéns! Você ganhou um brinde especial!</h3>
+                <p class="gift-description">
+                    Como um dos primeiros 15 inscritos, você receberá um brinde exclusivo no dia do evento.
+                    <strong>O brinde será revelado apenas no dia - prepare-se para uma surpresa!</strong>
+                </p>
+            </div>
+            {% endif %}
+
+            <!-- Informações do Evento -->
+            <div class="event-details">
+                <h3 class="details-title font-playfair">Detalhes do Evento</h3>
+                
+                <div class="details-grid">
+                    <div class="detail-card">
+                        <div class="detail-icon">📅</div>
+                        <div class="detail-content">
+                            <h4>Data</h4>
+                            <p>20 de Setembro de 2025<br>Equinócio da Primavera</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <div class="detail-icon">🕒</div>
+                        <div class="detail-content">
+                            <h4>Horário</h4>
+                            <p>15:00 - 23:00<br>8 horas de evento</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card secret-location">
+                        <div class="detail-icon">📍</div>
+                        <div class="detail-content">
+                            <h4>Local Revelado!</h4>
+                            <p><strong>Ninho do Largo</strong><br>
+                            R. Desembargador Ermelino de Leão, 511<br>
+                            Matriz, Curitiba</p>
+                            <a href="https://www.instagram.com/ninhodolargo/" target="_blank" class="location-link">
+                                📸 @ninhodolargo
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <div class="detail-icon">🎵</div>
+                        <div class="detail-content">
+                            <h4>Lineup</h4>
+                            <p>Trio Primavera, Alvaro,<br>Malak, Radiotivity Sound</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instruções Importantes -->
+            <div class="important-instructions">
+                <h3 class="instructions-title">📋 Instruções Importantes</h3>
+                <div class="instructions-list">
+                    <div class="instruction-item">
+                        <span class="instruction-icon">🎫</span>
+                        <div class="instruction-text">
+                            <strong>Entrada:</strong> Apresente seu código QR ou o código {{ dados.codigo }} na portaria
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <span class="instruction-icon">⏰</span>
+                        <div class="instruction-text">
+                            <strong>Chegada:</strong> Portões abrem às 15h00 e fecham às 20h00
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <span class="instruction-icon">🥫</span>
+                        <div class="instruction-text">
+                            <strong>Solidariedade:</strong> Traga alimentos não perecíveis para doação
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <span class="instruction-icon">♻️</span>
+                        <div class="instruction-text">
+                            <strong>Sustentabilidade:</strong> Ajude-nos com a reciclagem consciente
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-item">
+                        <span class="instruction-icon">📱</span>
+                        <div class="instruction-text">
+                            <strong>Dúvidas:</strong> Entre em contato via WhatsApp para qualquer dúvida
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="confirmation-actions">
+                <button onclick="window.print()" class="btn-secondary">
+                    🖨️ Imprimir Confirmação
+                </button>
+                
+                <button onclick="baixarQRCode()" class="btn-secondary">
+                    📱 Baixar QR Code
+                </button>
+                
+                <a href="https://wa.me/5541999999999?text=Olá! Recebi minha confirmação do Florescer Cultural. Código: {{ dados.codigo }}" 
+                   target="_blank" class="btn-outline">
+                    💬 Falar no WhatsApp
+                </a>
+                
+                <a href="{{ url_for('index') }}" class="btn-primary">
+                    🌸 Voltar ao Site
+                </a>
+            </div>
+
+            <!-- Compartilhamento -->
+            <div class="share-section">
+                <h4 class="share-title">Compartilhe a experiência!</h4>
+                <div class="share-buttons">
+                    <a href="https://wa.me/?text=Acabei de me inscrever no Florescer Cultural! 🌸 Um evento incrível de música e consciência ambiental em 20/09. Vem comigo!" 
+                       target="_blank" class="share-btn whatsapp">
+                        📱 WhatsApp
+                    </a>
+                    
+                    <a href="https://www.instagram.com/ninhodolargo/" 
+                       target="_blank" class="share-btn instagram">
+                        📸 Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Countdown Timer -->
+<div class="countdown-section">
+    <div class="container">
+        <h3 class="countdown-title font-playfair">Contagem Regressiva</h3>
+        <div id="countdown" class="countdown-display">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">Dias</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">Horas</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">Minutos</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">Segundos</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Countdown timer
+function initCountdown() {
+    const eventDate = new Date('2025-09-20T15:00:00').getTime();
+    
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = eventDate - now;
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        
+        document.getElementById('days').textContent = days.toString().padStart(2, '0');
+        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        
+        if (distance < 0) {
+            document.getElementById('countdown').innerHTML = 
+                '<div class="event-started">🌸 O evento começou! 🌸</div>';
+        }
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+}
+
+// Download QR Code
+function baixarQRCode() {
+    const qrImage = document.querySelector('.qr-code');
+    const link = document.createElement('a');
+    link.href = qrImage.src;
+    link.download = 'florescer-cultural-{{ dados.codigo }}.png';
+    link.click();
+}
+
+// Inicializar countdown
+initCountdown();
+
+// Animação de entrada
+document.addEventListener('DOMContentLoaded', function() {
+    const elements = document.querySelectorAll('.animate-fade-in');
+    elements.forEach((el, index) => {
+        setTimeout(() => {
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+        }, index * 200);
+    });
+});
+
+// Copiar código para clipboard
+document.querySelector('.code-highlight').addEventListener('click', function() {
+    navigator.clipboard.writeText('{{ dados.codigo }}').then(() => {
+        const originalText = this.textContent;
+        this.textContent = 'Copiado!';
+        this.style.background = '#4CAF50';
+        
+        setTimeout(() => {
+            this.textContent = originalText;
+            this.style.background = '';
+        }, 2000);
+    });
+});
+</script>
+
+<style>
+@media print {
+    .confirmation-actions,
+    .share-section,
+    .countdown-section,
+    .footer,
+    .floating-elements {
+        display: none !important;
+    }
+    
+    .confirmation-card {
+        box-shadow: none !important;
+        border: 2px solid #C7A44C !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+}
+</style>
+{% endblock %}
