@@ -1,0 +1,122 @@
+[
+  {
+    "id": "robson",
+    "nome": "ROBSON",
+    "horario": "13:00",
+    "duracao": "1h30",
+    "horario_completo": "13:00 - 14:30",
+    "ordem": 1,
+    "cor_destaque": "#fe74a5",
+    "bio": "Artista local com sonoridades únicas que abrem o evento com energia.",
+    "redes_sociais": {
+      "instagram": "",
+      "spotify": "",
+      "soundcloud": ""
+    }
+  },
+  {
+    "id": "ufo_groove",
+    "nome": "UFO GROOVE",
+    "horario": "14:30",
+    "duracao": "30min",
+    "horario_completo": "14:30 - 15:00",
+    "ordem": 2,
+    "cor_destaque": "#ffdc7a",
+    "bio": "Sonoridades intergalácticas que transportam o público para outras dimensões.",
+    "redes_sociais": {
+      "instagram": "",
+      "spotify": "",
+      "soundcloud": ""
+    }
+  },
+  {
+    "id": "nachi",
+    "nome": "NACHI",
+    "horario": "15:00",
+    "duracao": "30min",
+    "horario_completo": "15:00 - 15:30",
+    "ordem": 3,
+    "cor_destaque": "#59af00",
+    "bio": "Mestre de cerimônia e artista, conduzindo o evento com carisma e talento.",
+    "redes_sociais": {
+      "instagram": "",
+      "spotify": "",
+      "soundcloud": ""
+    }
+  },
+  {
+    "id": "alvar0_set1",
+    "nome": "ALVAR0",
+    "horario": "15:30",
+    "duracao": "30min",
+    "horario_completo": "15:30 - 16:00",
+    "ordem": 4,
+    "cor_destaque": "#c82050",
+    "bio": "Primeira apresentação de uma jornada musical única.",
+    "redes_sociais": {
+      "instagram": "",
+      "spotify": "",
+      "soundcloud": ""
+    }
+  },
+  {
+    "id": "alvar0_set2", 
+    "nome": "ALVAR0",
+    "horario": "16:00",
+    "duracao": "1h30",
+    "horario_completo": "16:00 - 17:30",
+    "ordem": 5,
+    "cor_destaque": "#fc898e",
+    "bio": "Continuação da apresentação com sonoridades envolventes.",
+    "redes_sociais": {
+      "instagram": "",
+      "spotify": "",
+      "soundcloud": ""
+    }
+  },
+  {
+    "id": "alvar0_set3",
+    "nome": "ALVAR0", 
+    "horario": "17:30",
+    "duracao": "30min",
+    "horario_completo": "17:30 - 18:00",
+    "ordem": 6,
+    "cor_destaque": "#dfa40a",
+    "bio": "Finalização da trilogia musical de ALVAR0.",
+    "redes_sociais": {
+      "instagram": "",
+      "spotify": "",
+      "soundcloud": ""
+    }
+  },
+  {
+    "id": "manifest_set1",
+    "nome": "MANIFEST RADIOTIVITY",
+    "horario": "18:00", 
+    "duracao": "1h",
+    "horario_completo": "18:00 - 19:00",
+    "ordem": 7,
+    "cor_destaque": "#4c8d0e",
+    "bio": "Coletivo que manifesta energia através de ondas sonoras transformadoras.",
+    "redes_sociais": {
+      "instagram": "",
+      "spotify": "",
+      "soundcloud": ""
+    }
+  },
+  {
+    "id": "manifest_set2",
+    "nome": "MANIFEST RADIOTIVITY",
+    "horario": "19:00",
+    "duracao": "1h", 
+    "horario_completo": "19:00 - 20:00",
+    "ordem": 8,
+    "cor_destaque": "#3fad43",
+    "bio": "Encerramento épico do evento com radiatividade sonora máxima.",
+    "redes_sociais": {
+      "instagram": "",
+      "spotify": "",
+      "soundcloud": ""
+    }
+  }
+]
